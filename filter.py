@@ -7,6 +7,9 @@ class Filter(object):
         pass
     def filter(self ,tcpsocket):
         ct = pynetfilter_conntrack.Conntrack()
-        for ip in ct.dump_table(AF_INET):
-            name = tcpsocket.split(":")
-            print name
+        try:
+        	for ip in ct.dump_table(AF_INET):
+	            name = tcpsocket.split(":")
+	            print name
+        except Exception, e:
+        	raise e

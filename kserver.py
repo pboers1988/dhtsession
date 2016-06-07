@@ -3,6 +3,7 @@ from twisted.python import log
 from kademlia.network import Server
 import os
 import sys
+import thread
 
 class Kserver(object):
     """docstring for Kserver"""
@@ -34,14 +35,14 @@ class Kserver(object):
 
         if (pid == 0):
             try:
-                pid = os.fork()
+                reactor.run()
             except Exception, e:
                 raise e
 
-            if (pid == 0):
-                reactor.run()
-            else:
-                os._exit(0)
+            # if (pid == 0):
+            #     reactor.run()
+            # else:
+            #     os._exit(0)
         else:
             pass
 
