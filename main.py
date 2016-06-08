@@ -12,11 +12,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', type=int, default=7000)
     parser.add_argument('-a', type=str, required=True)
+    parser.add_argument('-s', type=int, default=8080)
+    parser.add_argument('-i', type=str, required=True)
     args = parser.parse_args()
 
     kademlia = Kserver(args.a, args.p)
-    #dht = kademlia.initkserver()
-    tcpserver = TCPServer(args.a, 8080)
+    print "Starting kserver"
+    dht = kademlia.initkserver()
+    tcpserver = TCPServer(args.a, dht, args.s, args.i)
+    print "Starting Listener"
     tcpserver.initlistener()
     # s.listen(1)
     # while 1:

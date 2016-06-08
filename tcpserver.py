@@ -4,10 +4,11 @@ from ft import Filter
 
 class TCPServer(object):
     """docstring for TCPServer"""
-    def __init__(self, address, port=8080):
+    def __init__(self, address, dht, hostip, port=8080):
         self.address = address
         self.port = port
-        #self.dht = dht
+        self.dht = dht
+        self.hostip = hostip
 
     def initlistener(self):
         try:
@@ -32,8 +33,10 @@ class TCPServer(object):
                 elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1]) is False)):  
                     print "No Ack but no new connection. Passing to application"
                 elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1])):
-                    print "No Ack but new connection. Initiliasing Three way hand shake"
+                    print "New Connection Storing key pair"
+                    self.dht.set(packet_info[0] +":" + packet_info[1], self.hostip)
                 elif (int(packet_info[4]) % 2 == 1):
                     print "Fin Received"
                 else:
                     print "Don't know whats going on here so doing a lookup and otherwise RST"
+                    self.dht.get(packet_info[0] +":" + packet_info[1])
