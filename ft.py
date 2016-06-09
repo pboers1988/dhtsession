@@ -39,7 +39,7 @@ class Filter(object):
                     print entry.tcp_state
                     print "Syn packet With established connection"
                     return False
-                elif (entry.orig_l4proto == IPPROTO_TCP and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src) and (entry.tcp_state = TCP_CONNTRACK_SYN_RECV)):
+                elif (entry.orig_l4proto == IPPROTO_TCP and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src) and (entry.tcp_state == TCP_CONNTRACK_SYN_RECV)):
                     print entry.tcp_state
                     print "New Connection"
                     return True
