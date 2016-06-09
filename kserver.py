@@ -30,7 +30,7 @@ class Kserver(object):
         else:
             kserver = Server()
             kserver.bootstrap([(self.address, self.port)])
-            kserver.listen()
+            kserver.listen(self.port)
 
         kserver.saveStateRegularly('cache.pickle', 10)
         
