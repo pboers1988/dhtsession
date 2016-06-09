@@ -11,17 +11,22 @@ class TCPServer(object):
         self.hostip = hostip
 
     def initlistener(self):
+
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
         except Exception, e:
             raise e
+    #     return s
 
+    # @staticmethod
+    # def check_stream(self, s):
         # Create a Filter funtion
         while 1:
             buff, address = s.recvfrom(65535)
 
             packet_info = Filter.parser(buff, self.port)
-
+            print packet_info
+            print "Got A packet"
             if packet_info is False:   # Check if its TCP or not
                 pass
             else:

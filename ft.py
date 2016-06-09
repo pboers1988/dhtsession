@@ -82,6 +82,7 @@ class Filter(object):
         h_size = iph_length + tcph_length * 4
         data_size = len(buff) - h_size
 
+        print dest_port, port
         if (dest_port == port) and (protocol == 6) :  # Is the destination port that of the server and is the Protocol TCP (6)
             return [s_addr, source_port, sequence, acknowledgement, flags]
             print tcph

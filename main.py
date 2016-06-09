@@ -19,8 +19,7 @@ def main():
     kademlia = Kserver(args.a, args.p)
     print "Starting kserver"
     dht = kademlia.initkserver()
-    tcpserver = TCPServer(args.a, dht, args.s, args.i)
-    print "Starting Listener"
+    tcpserver = TCPServer(args.a, dht, args.i, args.s)
     tcpserver.initlistener()
     # s.listen(1)
     # while 1:
