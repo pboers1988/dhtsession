@@ -25,8 +25,6 @@ class TCPServer(object):
             buff, address = s.recvfrom(65535)
 
             packet_info = Filter.parser(buff, self.port)
-            print packet_info
-            print "Got A packet"
             if packet_info is False:   # Check if its TCP or not
                 pass
             else:
