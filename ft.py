@@ -38,11 +38,10 @@ class Filter(object):
                 if ((entry.orig_l4proto == IPPROTO_TCP) and (entry.tcp_state == TCP_CONNTRACK_ESTABLISHED) and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
                     print entry.tcp_state
                     print "Syn packet With established connection"
-                    return False
-                elif (entry.orig_l4proto == IPPROTO_TCP and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src) and (entry.tcp_state == TCP_CONNTRACK_SYN_RECV)):
-                    print entry.tcp_state
-                    print "New Connection"
                     return True
+                elif (entry.orig_l4proto == IPPROTO_TCP and (entry.tcp_state == TCP_CONNTRACK_SYN_RECV) and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src) ):
+                    print "New Connection"
+                    return False
                 else:
                     pass
         except Exception, e:
