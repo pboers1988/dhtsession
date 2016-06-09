@@ -4,7 +4,6 @@ import os
 import argparse
 from kserver import Kserver
 from tcpserver import TCPServer
-from filter import Filter
 import socket
 
 def main():
