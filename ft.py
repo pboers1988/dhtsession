@@ -89,6 +89,5 @@ class Filter(object):
 
         if (dest_port == port) and (protocol == 6) :  # Is the destination port that of the server and is the Protocol TCP (6)
             return [s_addr, source_port, sequence, acknowledgement, flags]
-            print tcph
         else:
             return False

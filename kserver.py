@@ -1,6 +1,9 @@
-from twisted.internet import reactor
+from twisted.application import service, internet
+from twisted.python.log import ILogObserver
+from twisted.internet import reactor, task
 from twisted.python import log
 from kademlia.network import Server
+from kademlia import log
 import os
 import sys
 import thread
@@ -23,14 +26,15 @@ class Kserver(object):
         return self.kserver.get(key)
 
     def initkserver(self):
-        log.startLogging(sys.stdout)
+        application = service.Application("kademlia")
+        application.setComponent(ILogObserver, log.FileLogObserver(sys.stdout, log.INFO).emit)
         if os.path.isfile('cache.pickle'):
             kserver = Server.loadState('cache.pickle')
             kserver.listen(self.port)
         else:
             kserver = Server()
             kserver.bootstrap([(self.address, self.port)])
-            kserver.listen(self.port)
+            #kserver.listen(self.port)
 
         kserver.saveStateRegularly('cache.pickle', 10)
         
@@ -41,6 +45,7 @@ class Kserver(object):
 
         if (pid == 0):
             try:
+                reactor.listenUDP(self.port, kserver.protocol)
                 reactor.run()
             except Exception, e:
                 raise e
