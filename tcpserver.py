@@ -32,7 +32,6 @@ class TCPServer(object):
                 if packet_info is False:   # Check if its TCP or not
                     pass
                 else:
-                    print packet_info
                     if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1])):  # Check if i the ack flag is set and if it is in the connection table
                         print "Established or otherwise"
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1]) is False)):
