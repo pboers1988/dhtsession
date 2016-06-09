@@ -32,17 +32,16 @@ class TCPServer(object):
                 if packet_info is False:   # Check if its TCP or not
                     pass
                 else:
+                    table = Filter.dump_table()
                     print packet_info
-                    if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1])):  # Check if i the ack flag is set and if it is in the connection table
+                    if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1], table)):  # Check if i the ack flag is set and if it is in the connection table
                         print "Established or otherwise"
-                    elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1]) is False)):
+                    elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
                         print "ACK but not connected PANIC"
-                    elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1])):
-                        print (Filter.newconn(packet_info[0], packet_info[1]))  
+                    elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print "New Connection Storing key pair"  
                         self.dht.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
-                    elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1]) is False)):
-                        print (Filter.newconn(packet_info[0], packet_info[1]))  
+                    elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print "No Ack but no new connection. Passing to application"
                     elif (int(packet_info[4]) % 2 == 1):
                         print "Fin Received"

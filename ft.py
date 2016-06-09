@@ -8,11 +8,20 @@ class Filter(object):
     """docstring for Filter"""
     def __init__(self):
         pass
+
     @staticmethod
-    def filter(ip, port):
+    def dump_table():
         try:
             ct = pynetfilter_conntrack.Conntrack()
             table,count = ct.dump_table(socket.AF_INET)
+            return table
+        except Exception, e:
+            raise e
+        
+
+    @staticmethod
+    def filter(ip, port, table):
+        try:
             for entry in table:
                 if ((entry.orig_l4proto == IPPROTO_TCP) and ((entry.tcp_state == TCP_CONNTRACK_ESTABLISHED) \
                     or (entry.tcp_state == TCP_CONNTRACK_LAST_ACK) or (entry.tcp_state == TCP_CONNTRACK_CLOSE_WAIT)) and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
@@ -30,10 +39,8 @@ class Filter(object):
 
 
     @staticmethod
-    def newconn(ip, port):
+    def newconn(ip, port, table):
         try:
-            ct = pynetfilter_conntrack.Conntrack()
-            table,count = ct.dump_table(socket.AF_INET)
             for entry in table:
                 if ((entry.orig_l4proto == IPPROTO_TCP) and (entry.tcp_state == TCP_CONNTRACK_ESTABLISHED) and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
                     print entry.tcp_state
