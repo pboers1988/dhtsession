@@ -14,13 +14,13 @@ class Filter(object):
             ct = pynetfilter_conntrack.Conntrack()
             table,count = ct.dump_table(socket.AF_INET)
             for entry in table:
-                if ((entry.orig_l4proto == IPPROTO_TCP) and ((entry.tcp_state == TCP_CONNTRACK_SYN_RECV) or (entry.tcp_state == TCP_CONNTRACK_ESTABLISHED) \
+                if ((entry.orig_l4proto == IPPROTO_TCP) and ((entry.tcp_state == TCP_CONNTRACK_ESTABLISHED) \
                     or (entry.tcp_state == TCP_CONNTRACK_LAST_ACK) or (entry.tcp_state == TCP_CONNTRACK_CLOSE_WAIT)) and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
                     print "Established connection"
-                    #print entry
+                    print entry.tcp_state
                     return True # This connection is a "normal connction and should be passed to the application"
                 elif (entry.orig_l4proto == IPPROTO_TCP and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
-                    #print entry
+                    print entry.tcp_state
                     print "Not an Established connection"
                     return False
                 else:
@@ -36,12 +36,10 @@ class Filter(object):
             table,count = ct.dump_table(socket.AF_INET)
             for entry in table:
                 if ((entry.orig_l4proto == IPPROTO_TCP) and (entry.tcp_state == TCP_CONNTRACK_ESTABLISHED) and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
-                    print ((entry.orig_l4proto == IPPROTO_TCP) and (entry.tcp_state == TCP_CONNTRACK_ESTABLISHED))
                     print entry.tcp_state
                     print "Syn packet With established connection"
                     return False
-                elif (entry.orig_l4proto == IPPROTO_TCP and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
-                    print ((ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src))
+                elif (entry.orig_l4proto == IPPROTO_TCP and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src) and (entry.tcp_state = TCP_CONNTRACK_SYN_RECV)):
                     print entry.tcp_state
                     print "New Connection"
                     return True

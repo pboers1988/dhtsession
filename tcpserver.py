@@ -34,22 +34,28 @@ class TCPServer(object):
                 else:
                     if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1])):  # Check if i the ack flag is set and if it is in the connection table
                         print "Established or otherwise"
+                        pass
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1]) is False)):
                         print "ACK but not connected PANIC"
+                        pass
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1]) is False)):  
                         print "No Ack but no new connection. Passing to application"
                         print packet_info
+                        pass
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1])):
                         print "New Connection Storing key pair"
                         print  packet_info
                         print   
                         print
                         self.dht.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
+                        pass
                     elif (int(packet_info[4]) % 2 == 1):
                         print "Fin Received"
+                        pass
                     else:
                         print packet_info
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
                         print self.dht.get(packet_info[0] +":" + str(packet_info[1]))
+                        pass
         except Exception, e:
             raise e
