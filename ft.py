@@ -24,7 +24,6 @@ class Filter(object):
                     print "Not an Established connection"
                     return False
                 else:
-                    print entry
                     pass
         except Exception, e:
             raise e
@@ -45,7 +44,6 @@ class Filter(object):
                     print "New Connection"
                     return True
                 else:
-                    print entry
                     pass
         except Exception, e:
             raise e
