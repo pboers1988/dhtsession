@@ -37,12 +37,13 @@ class TCPServer(object):
                         print "Established or otherwise"
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1]) is False)):
                         print "ACK but not connected PANIC"
-                    elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1]) is False)):
-                        print (Filter.newconn(packet_info[0], packet_info[1]) is False)  
-                        print "No Ack but no new connection. Passing to application"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1])):
+                        print (Filter.newconn(packet_info[0], packet_info[1]))  
                         print "New Connection Storing key pair"  
                         self.dht.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
+                    elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1]) is False)):
+                        print (Filter.newconn(packet_info[0], packet_info[1]))  
+                        print "No Ack but no new connection. Passing to application"
                     elif (int(packet_info[4]) % 2 == 1):
                         print "Fin Received"
                     else:
