@@ -24,10 +24,16 @@ class Kserver(object):
 
     def initkserver(self):
         log.startLogging(sys.stdout)
-        kserver = Server()
-        kserver.listen(self.port)
-        kserver.bootstrap([(self.address, self.port)])
+        if os.path.isfile('cache.pickle'):
+            kserver = Server.loadState('cache.pickle')
+            kserver.listen(self.port)
+        else:
+            kserver = Server()
+            kserver.bootstrap([(self.address, self.port)])
+            kserver.listen()
 
+        kserver.saveStateRegularly('cache.pickle', 10)
+        
         try:
             pid = os.fork()
         except Exception, e:
