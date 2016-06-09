@@ -40,11 +40,11 @@ class TCPServer(object):
                         print "No Ack but no new connection. Passing to application"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1])):
                         print "New Connection Storing key pair"
-                        self.dht.set(packet_info[0] +":" + packet_info[1], self.hostip)
+                        self.dht.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
                     elif (int(packet_info[4]) % 2 == 1):
                         print "Fin Received"
                     else:
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
-                        self.dht.get(packet_info[0] +":" + packet_info[1])
+                        self.dht.get(packet_info[0] +":" + str(packet_info[1]))
         except Exception, e:
             raise e
