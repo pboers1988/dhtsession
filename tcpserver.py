@@ -53,6 +53,6 @@ class TCPServer(object):
                     else:
                         print packet_info
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
-                        print sKserver.get(packet_info[0] +":" + str(packet_info[1]), dht)
+                        print Kserver.get(packet_info[0] +":" + str(packet_info[1]), dht)
         except Exception, e:
             raise e
