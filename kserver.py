@@ -19,13 +19,18 @@ class Kserver(object):
         reactor.stop()
 
     @staticmethod
-    def set(key, value, kserver):
+    def set(key, value):
         print "Setting key " + key + " and value " + value
-        kserver.saveState('cache.pickle')
-        return kserver.set(str(key), str(value))
+        kserver = Server()
+        kserver.listen(7001)
+        kserver.bootstrap(["10.100.10.1", 7000])
+        reactor.run()
+        kserver.set(str(key), str(value))
+        reactor.stop()
+        print "Done setting keys"
 
     @staticmethod
-    def get(key, kserver):
+    def get(key):
         return kserver.get(str(key))
 
     def initkserver(self):
