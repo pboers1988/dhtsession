@@ -22,11 +22,11 @@ class Kserver(object):
     @staticmethod
     def set(key, value, kserver):
         print "Setting key " + key + " and value " + value
-        kserver.set(key, value)
+        kserver.set(str(key), str(value))
 
     @staticmethod
     def get(key, kserver):
-        return kserver.get(key)
+        return kserver.get(str(key))
 
     def initkserver(self):
         application = service.Application("kademlia")
