@@ -34,7 +34,7 @@ class Kserver(object):
         else:
             kserver = Server()
             kserver.bootstrap([(self.address, self.port)])
-            #kserver.listen(self.port)
+            kserver.listen(self.port)
 
         kserver.saveStateRegularly('cache.pickle', 10)
         
@@ -45,7 +45,7 @@ class Kserver(object):
 
         if (pid == 0):
             try:
-                reactor.listenUDP(self.port, kserver.protocol)
+                #reactor.listenUDP(self.port, kserver.protocol)
                 reactor.run()
             except Exception, e:
                 raise e
