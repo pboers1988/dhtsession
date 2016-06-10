@@ -22,7 +22,7 @@ class Kserver(object):
     @staticmethod
     def set(key, value, kserver):
         print "Setting key " + key + " and value " + value
-        kserver.set(str(key), str(value))
+        return kserver.set(str(key), str(value))
 
     @staticmethod
     def get(key, kserver):
