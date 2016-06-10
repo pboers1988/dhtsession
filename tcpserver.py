@@ -44,7 +44,7 @@ class TCPServer(object):
                         print packet_info[0] +":" + str(packet_info[1])
                         print self.hostip
                         #self.dht.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
-                        Kserver.set(packet_info[0] +":" + str(packet_info[1]), self.hostip, dht)
+                        Kserver.set(packet_info[0] +":" + str(packet_info[1]), self.hostip, self.dht)
 
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print "No Ack but no new connection. Passing to application"
@@ -53,6 +53,6 @@ class TCPServer(object):
                     else:
                         print packet_info
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
-                        print Kserver.get(packet_info[0] +":" + str(packet_info[1]), dht)
+                        print Kserver.get(packet_info[0] +":" + str(packet_info[1]), self.dht)
         except Exception, e:
             raise e
