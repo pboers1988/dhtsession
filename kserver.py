@@ -23,7 +23,7 @@ class Kserver(object):
         print "Setting key " + key + " and value " + value
         kserver = Server()
         kserver.listen(7001)
-        kserver.bootstrap(["10.100.10.1", 7000])
+        kserver.bootstrap([("10.100.10.1", 7000)])
         reactor.run()
         kserver.set(str(key), str(value))
         reactor.stop()
