@@ -3,7 +3,6 @@ from twisted.python.log import ILogObserver
 from twisted.internet import reactor, task
 from twisted.python import log
 from kademlia.network import Server
-from kademlia import log
 import os
 import sys
 import thread
@@ -29,8 +28,9 @@ class Kserver(object):
         return kserver.get(str(key))
 
     def initkserver(self):
-        application = service.Application("kademlia")
-        application.setComponent(ILogObserver, log.FileLogObserver(sys.stdout, log.INFO).emit)
+        #application = service.Application("kademlia")
+        #pplication.setComponent(ILogObserver, log.FileLogObserver(sys.stdout, log.INFO).emit)
+        log.startLogging(sys.stdout)
         if os.path.isfile('cache.pickle'):
             kserver = Server.loadState('cache.pickle')
             kserver.listen(self.port)
@@ -60,5 +60,4 @@ class Kserver(object):
         else:
             pass
 
-        self.kserver = kserver
         return kserver
