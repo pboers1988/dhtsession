@@ -2,6 +2,8 @@ import socket
 from struct import *
 from ft import Filter
 import os
+from kserver import Kserver
+
 
 
 class TCPServer(object):
@@ -39,8 +41,11 @@ class TCPServer(object):
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
                         print "ACK but not connected PANIC"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
-                        print "New Connection Storing key pair"  
-                        self.dht.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
+                        print packet_info[0] +":" + str(packet_info[1])
+                        print self.hostip
+                        #self.dht.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
+                        Kserver.set(packet_info[0] +":" + str(packet_info[1]), self.hostip, dht)
+
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print "No Ack but no new connection. Passing to application"
                     elif (int(packet_info[4]) % 2 == 1):
@@ -48,6 +53,6 @@ class TCPServer(object):
                     else:
                         print packet_info
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
-                        print self.dht.get(packet_info[0] +":" + str(packet_info[1]))
+                        print sKserver.get(packet_info[0] +":" + str(packet_info[1]), dht)
         except Exception, e:
             raise e

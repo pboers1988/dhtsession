@@ -19,11 +19,13 @@ class Kserver(object):
         print "Killing the server"
         reactor.stop()
 
-    def set(self, key, value):
-        self.kserver.set(key, value)
+    @staticmethod
+    def set(key, value, kserver):
+        kserver.set(key, value)
 
-    def get(self, key):
-        return self.kserver.get(key)
+    @staticmethod
+    def get(key, kserver):
+        return kserver.get(key)
 
     def initkserver(self):
         application = service.Application("kademlia")
