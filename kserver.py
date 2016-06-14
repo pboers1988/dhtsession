@@ -33,9 +33,11 @@ class Kserver(object):
         return kserver.get(str(key)).addCallback(printing)
 
     def getserver(self):
+        print "This is the DHT object" + self.dht
         return self.dht
 
     def saveserver(self, found, kserver):
+        print "Save server"
         self.dht = kserver
 
     def initkserver(self):
