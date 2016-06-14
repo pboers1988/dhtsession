@@ -36,12 +36,12 @@ class Kserver(object):
             kserver.listen(self.port)
         else:
             kserver = Server()
-            kserver.bootstrap([(self.address, 7000)])
+            kserver.bootstrap([(self.address, self.port)])
             kserver.listen(self.port)
 
         kserver.saveStateRegularly('cache.pickle', 10)
         
-        try:
+        try:    
             pid = os.fork()
         except Exception, e:
             raise e
@@ -50,6 +50,7 @@ class Kserver(object):
             try:
                 #reactor.listenUDP(self.port, kserver.protocol)
                 reactor.run()
+                return kserver
             except Exception, e:
                 raise e
 
