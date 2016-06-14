@@ -13,8 +13,8 @@ class Kserver(object):
     def __init__(self, address, port):
         self.address = address
         self.port = port
-        self.dht = False
-        self.get = False
+        dht = False
+        get = False
 
     def kill(self):
         print "Killing the server"
@@ -37,8 +37,8 @@ class Kserver(object):
         return self.dht
 
     def saveserver(self, found, kserver):
-        print "Save server"
-        self.dht = kserver
+        print kserver
+        Kserver.dht = kserver
 
     def initkserver(self):
         #application = service.Application("kademlia")
