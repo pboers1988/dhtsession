@@ -20,14 +20,17 @@ class Kserver(object):
         print "Killing the server"
         reactor.stop()
 
+    def printing(self, result):
+        print "Epic" + result
+
     @staticmethod
     def set(key, value, kserver):
         print "Setting key " + key + " and value " + value
-        return kserver.set(str(key), str(value)).addCallback(None)
+        return kserver.set(str(key), str(value)).addCallback(printing)
 
     @staticmethod
     def get(key, kserver):
-        return kserver.get(str(key)).addCallback(None)
+        return kserver.get(str(key)).addCallback(printing)
 
     def getserver(self):
         return self.dht

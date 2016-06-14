@@ -23,6 +23,7 @@ def main():
         pass
     else:
         dht = kademlia.getserver()
+        print dht
 
 
     tcpserver = TCPServer(args.a, dht, args.i, args.s)
