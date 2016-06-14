@@ -33,8 +33,7 @@ class Kserver(object):
         return kserver.get(str(key)).addCallback(printing)
 
     def getserver(self):
-        print "This is the DHT object" + self.dht
-        return self.dht
+        return Kserver.dht
 
     def saveserver(self, found, kserver):
         print kserver
