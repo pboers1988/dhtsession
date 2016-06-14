@@ -2,11 +2,12 @@ import socket
 from struct import *
 from ft import Filter
 import os
-from kserver import Kserver
+#from kserver import Kserver
+from interface import Interface
 
 
 
-class TCPServer(object):
+class TCPServer():
     """docstring for TCPServer"""
     def __init__(self, address, dht, hostip, port=8080):
         self.address = address
@@ -25,7 +26,7 @@ class TCPServer(object):
     # @staticmethod
     # def check_stream(self, s):
         # Create a Filter funtion
-        
+        interface = Interface()
         try:
             while 1:
                 buff, address = s.recvfrom(65535)
@@ -44,7 +45,7 @@ class TCPServer(object):
                         print packet_info[0] +":" + str(packet_info[1])
                         print self.hostip
                         #self.dht.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
-                        print Kserver.set(packet_info[0] +":" + str(packet_info[1]), self.hostip, self.dht)
+                        print interface.set(packet_info[0] +":" + str(packet_info[1]), self.hostip, self.dht)
 
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print "No Ack but no new connection. Passing to application"
@@ -53,6 +54,6 @@ class TCPServer(object):
                     else:
                         print packet_info
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
-                        print Kserver.get(packet_info[0] +":" + str(packet_info[1]), self.dht)
+                        print interface.get(packet_info[0] +":" + str(packet_info[1]), self.dht)
         except Exception, e:
             raise e

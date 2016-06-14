@@ -6,6 +6,7 @@ from kserver import Kserver
 from tcpserver import TCPServer
 import socket
 
+
 def main():
     # parse command line options
     parser = argparse.ArgumentParser()
@@ -15,19 +16,10 @@ def main():
     parser.add_argument('-i', type=str, required=True)
     args = parser.parse_args()
 
-    kademlia = Kserver(args.a, args.p)
+    kademlia = Kserver(args.a, args.p, args.i, args.s)
     print "Starting kserver"
     kademlia.initkserver()
 
-    while kademlia.getserver() is False:
-        pass
-    else:
-        dht = kademlia.getserver()
-        print dht
-
-
-    tcpserver = TCPServer(args.a, dht, args.i, args.s)
-    tcpserver.initlistener()
     # s.listen(1)
     # while 1:
     #     connection, client_address = s.accept()

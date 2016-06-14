@@ -6,15 +6,15 @@ from kademlia.network import Server
 import os
 import sys
 import thread
+from tcpserver import TCPServer
 
-class Kserver(object):
+class Kserver():
     """docstring for Kserver"""
-
-    def __init__(self, address, port):
+    def __init__(self, address, port, hostip, listen):
         self.address = address
         self.port = port
-        dht = False
-        get = False
+        self.hostip = hostip
+        self.listen = listen
 
     def kill(self):
         print "Killing the server"
@@ -23,21 +23,11 @@ class Kserver(object):
     def printing(self, result):
         print "Epic" + result
 
-    @staticmethod
-    def set(key, value, kserver):
-        print "Setting key " + key + " and value " + value
-        return kserver.set(str(key), str(value)).addCallback(printing)
 
-    @staticmethod
-    def get(key, kserver):
-        return kserver.get(str(key)).addCallback(printing)
+    def startTCP(self, found, dht):
+        tcpserver = TCPServer(self.address, dht, self.hostip, self.listen)
+        tcpserver.initlistener()
 
-    def getserver(self):
-        return Kserver.dht
-
-    def saveserver(self, found, kserver):
-        print kserver
-        Kserver.dht = kserver
 
     def initkserver(self):
         #application = service.Application("kademlia")
@@ -49,7 +39,7 @@ class Kserver(object):
         else:
             kserver = Server()
             kserver.listen(self.port)
-            kserver.bootstrap([(self.address, self.port)]).addCallback(self.saveserver, kserver)
+            kserver.bootstrap([(self.address, self.port)]).addCallback(self.startTCP, kserver)
 
 
         kserver.saveStateRegularly('cache.pickle', 10)
