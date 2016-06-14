@@ -17,6 +17,7 @@ class ChordNode():
         else:
             print "Joining group"
             bind_addr = self.address + ":" + str(self.port)
+            print bind_addr
             node.join(bind_addr)
 
     def start(self):
