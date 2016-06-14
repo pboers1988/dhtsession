@@ -13,6 +13,8 @@ class Kserver(object):
     def __init__(self, address, port):
         self.address = address
         self.port = port
+        self.dht = False
+        self.get = False
 
     def kill(self):
         print "Killing the server"
@@ -21,11 +23,17 @@ class Kserver(object):
     @staticmethod
     def set(key, value, kserver):
         print "Setting key " + key + " and value " + value
-        return kserver.set(str(key), str(value))
+        return kserver.set(str(key), str(value)).addCallback(None)
 
     @staticmethod
     def get(key, kserver):
-        return kserver.get(str(key))
+        return kserver.get(str(key)).addCallback(None)
+
+    def getserver(self):
+        return self.dht
+
+    def saveserver(self, found, kserver):
+        self.dht = kserver
 
     def initkserver(self):
         #application = service.Application("kademlia")
@@ -36,8 +44,9 @@ class Kserver(object):
             kserver.listen(self.port)
         else:
             kserver = Server()
-            kserver.bootstrap([(self.address, self.port)])
             kserver.listen(self.port)
+            kserver.bootstrap([(self.address, self.port)]).addCallback(self.saveserver, kserver)
+
 
         kserver.saveStateRegularly('cache.pickle', 10)
         
@@ -50,7 +59,6 @@ class Kserver(object):
             try:
                 #reactor.listenUDP(self.port, kserver.protocol)
                 reactor.run()
-                return kserver
             except Exception, e:
                 raise e
 
@@ -60,5 +68,3 @@ class Kserver(object):
             #     os._exit(0)
         else:
             pass
-
-        return kserver

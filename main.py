@@ -17,7 +17,14 @@ def main():
 
     kademlia = Kserver(args.a, args.p)
     print "Starting kserver"
-    dht = kademlia.initkserver()
+    kademlia.initkserver()
+
+    while kademlia.getserver() is False:
+        pass
+    else:
+        dht = kademlia.getserver()
+
+
     tcpserver = TCPServer(args.a, dht, args.i, args.s)
     tcpserver.initlistener()
     # s.listen(1)
