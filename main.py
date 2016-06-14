@@ -5,8 +5,7 @@ import argparse
 from kserver import Kserver
 from tcpserver import TCPServer
 import socket
-
-
+from chord import ChordNode
 def main():
     # parse command line options
     parser = argparse.ArgumentParser()
@@ -16,9 +15,17 @@ def main():
     parser.add_argument('-i', type=str, required=True)
     args = parser.parse_args()
 
-    kademlia = Kserver(args.a, args.p, args.i, args.s)
-    print "Starting kserver"
-    kademlia.initkserver()
+    #kademlia = Kserver(args.a, args.p, args.i, args.s)
+    #print "Starting kserver"
+    #dht = kademlia.initkserver()
+
+    node = ChordNode(args.a, args.p, args.i)
+
+    node.start()
+
+
+    tcpserver = TCPServer(args.a,  args.i, args.s)
+    tcpserver.initlistener()
 
     # s.listen(1)
     # while 1:

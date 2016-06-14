@@ -3,16 +3,15 @@ from struct import *
 from ft import Filter
 import os
 #from kserver import Kserver
-from interface import Interface
+from chord import ChordClient
 
 
 
 class TCPServer():
     """docstring for TCPServer"""
-    def __init__(self, address, dht, hostip, port=8080):
+    def __init__(self, address, hostip, port=8080):
         self.address = address
         self.port = port
-        self.dht = dht
         self.hostip = hostip
 
     def initlistener(self):
@@ -21,12 +20,9 @@ class TCPServer():
             s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
         except Exception, e:
             raise e
-    #     return s
 
-    # @staticmethod
-    # def check_stream(self, s):
-        # Create a Filter funtion
-        interface = Interface()
+        client = ChordClient(self.address, self.port)
+        conn = client.connection()
         try:
             while 1:
                 buff, address = s.recvfrom(65535)
@@ -43,9 +39,7 @@ class TCPServer():
                         print "ACK but not connected PANIC"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info[0] +":" + str(packet_info[1])
-                        print self.hostip
-                        #self.dht.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
-                        print interface.set(packet_info[0] +":" + str(packet_info[1]), self.hostip, self.dht)
+                        print conn.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
 
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print "No Ack but no new connection. Passing to application"
@@ -54,6 +48,6 @@ class TCPServer():
                     else:
                         print packet_info
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
-                        print interface.get(packet_info[0] +":" + str(packet_info[1]), self.dht)
+                        print conn.get(packet_info[0] +":" + str(packet_info[1]))
         except Exception, e:
             raise e
