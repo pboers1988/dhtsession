@@ -9,7 +9,7 @@ import socket
 def main():
     # parse command line options
     parser = argparse.ArgumentParser()
-    parser.add_argument('-p', type=int, default=7000)
+    parser.add_argument('-p', type=int, default=7001)
     parser.add_argument('-a', type=str, required=True)
     parser.add_argument('-s', type=int, default=8080)
     parser.add_argument('-i', type=str, required=True)

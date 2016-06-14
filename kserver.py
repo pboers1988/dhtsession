@@ -21,7 +21,6 @@ class Kserver(object):
     @staticmethod
     def set(key, value, kserver):
         print "Setting key " + key + " and value " + value
-        kserver.saveState('cache.pickle')
         return kserver.set(str(key), str(value))
 
     @staticmethod
@@ -37,7 +36,7 @@ class Kserver(object):
             kserver.listen(self.port)
         else:
             kserver = Server()
-            kserver.bootstrap([(self.address, self.port)])
+            kserver.bootstrap([(self.address, 7000)])
             kserver.listen(self.port)
 
         kserver.saveStateRegularly('cache.pickle', 10)
