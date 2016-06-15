@@ -36,20 +36,25 @@ class TCPServer():
                 else:
                     table = Filter.dump_table()
                     if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1], table)):  # Check if i the ack flag is set and if it is in the connection table
+                        print packet_info
                         print "Established, Closing or Time Wait"
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
+                        print packet_info
                         print "ACK but not connected PANIC"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info[0] +":" + str(packet_info[1])
                         print conn.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
 
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
+                        print packet_info
                         print "No Ack but no new connection. Passing to application"
                     elif (int(packet_info[4]) % 2 == 1):
                         print "Fin"
                     elif ( conn.get(packet_info[0] +":" + str(packet_info[1])) ==  self.hostip):
-                        print "Last Ack"
+                        print packet_info
+                        print "Last Ack - Closed connection"
                     else:
+                        print packet_info
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
         except Exception, e:
             raise e
