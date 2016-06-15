@@ -21,10 +21,24 @@ def main():
 
 
     tcpserver = TCPServer(args.a,  args.i, args.p, args.s)
-    print "Starting Listener"
-    tcpserver.initlistener()
+    try:
+         pid = os.fork()
+    except Exception, e:
+        raise e
+
+    if (pid == 0):
+        try:
+            print "Starting Listener"
+            tcpserver.initlistener()
+        except Exception, e:
+            raise e
+        finally:
+            os._exit(0)
+    else:
+        pass
+
     print "Starting Server"
-    tcpserber.initserver()
+    tcpserver.initserver()
 
     while True:
         pass
@@ -37,3 +51,4 @@ if __name__ == "__main__":
             sys.exit(0)
         except SystemExit:
             os._exit(0)
+ 
