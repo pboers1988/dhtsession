@@ -24,8 +24,9 @@ class Filter(object):
         try:
             for entry in table:
                 if ((entry.orig_l4proto == IPPROTO_TCP) and ((entry.tcp_state == TCP_CONNTRACK_ESTABLISHED) or (entry.tcp_state == TCP_CONNTRACK_LAST_ACK)\
-                 or (entry.tcp_state == TCP_CONNTRACK_CLOSE_WAIT) or (entry.tcp_state == TCP_CONNTRACK_FIN_WAIT) or (entry.tcp_state == TCP_CONNTRACK_TIME_WAIT)) \
-                  and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
+                 or (entry.tcp_state == TCP_CONNTRACK_CLOSE_WAIT) or (entry.tcp_state == TCP_CONNTRACK_FIN_WAIT) or (entry.tcp_state == TCP_CONNTRACK_TIME_WAIT) \
+                  or  (entry.tcp_state == TCP_CONNTRACK_CLOSE))\
+                    and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
                     print "Established connection, Closing or Time Wait"
                     return True # This connection is a "normal connction and should be passed to the application"
                 elif (entry.orig_l4proto == IPPROTO_TCP and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
