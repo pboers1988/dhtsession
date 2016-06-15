@@ -39,8 +39,14 @@ class TCPServer():
                         print packet_info
                         print "Established, Closing or Time Wait"
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
-                        print packet_info
                         print "ACK but not connected PANIC"
+                        print "Getting the right host"
+                        dest = conn.get(packet_info[0] +":" + str(packet_info[1]))
+                        print "The correct destination = " + dest
+                        packet = Filter.repack(buff, dest)
+                        sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+                        sender.sendto(packet, (dest, 0))
+                        print "Forwarded packet"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
                         print conn.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
@@ -70,7 +76,7 @@ class TCPServer():
                 c, addr = s.accept()
                 print 'Got connection from', addr
                 c.send('Thank you for your connecting')
-                time.sleep(10)
+                time.sleep(60)
                 c.close()
         except Exception, e:
             raise e

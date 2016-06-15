@@ -67,8 +67,9 @@ class Filter(object):
 
         ttl = iph[5]
         protocol = iph[6]
-        s_addr = socket.inet_ntoa(iph[8]);
-        d_addr = socket.inet_ntoa(iph[9]);
+        s_addr = socket.inet_ntoa(iph[8])
+        d_addr = socket.inet_ntoa(iph[9])
+
         
         tcp_header = buff[iph_length:iph_length+20]
      
@@ -90,3 +91,15 @@ class Filter(object):
             return [s_addr, source_port, sequence, acknowledgement, flags]
         else:
             return False
+
+    @staticmethod
+    def repack(buff, dest):
+        bufflength = len(buff)
+        ip_header = buff[0:20]
+        iph = unpack('!BBHHHBBH4s4s', ip_header)
+        d_addr = socket.inet_ntoa(dest)
+
+        newiph = struct.pack('!BBHHHBBH4s4s', iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr)
+        packet = newiph + buff[21:bufflength]
+
+        return packet
