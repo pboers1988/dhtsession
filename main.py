@@ -15,13 +15,9 @@ def main():
     parser.add_argument('-i', type=str, required=True)
     args = parser.parse_args()
 
-    #kademlia = Kserver(args.a, args.p, args.i, args.s)
-    #print "Starting kserver"
-    #dht = kademlia.initkserver()
+    node = ChordNode(args.a, args.p, args.i)
 
-    #node = ChordNode(args.a, args.p, args.i)
-
-    #node.start()
+    node.start()
 
 
     tcpserver = TCPServer(args.a,  args.i, args.p, args.s)
