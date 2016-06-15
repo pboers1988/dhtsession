@@ -10,11 +10,12 @@ import time
 
 class TCPServer():
     """docstring for TCPServer"""
-    def __init__(self, address, hostip, chordport, port=8080):
+    def __init__(self, address, hostip, chordport, port, anycast):
         self.address = address
         self.port = port
         self.hostip = hostip
         self.chordport = chordport
+        self.anycast = anycast
 
     def initlistener(self):
 
@@ -58,9 +59,8 @@ class TCPServer():
     def initserver(self):
         try:
             s = socket.socket()
-            host = self.address
+            host = self.anycast
             port = self.port
-            print self.port, self.address
             s.bind((host, port))
             s.listen(5)
             while True:

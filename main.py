@@ -13,6 +13,7 @@ def main():
     parser.add_argument('-a', type=str, required=True)
     parser.add_argument('-s', type=int, default=8080)
     parser.add_argument('-i', type=str, required=True)
+    parser.add_argument('-c', type= str, required=True)
     args = parser.parse_args()
 
     #node = ChordNode(args.a, args.p, args.i)
@@ -20,7 +21,7 @@ def main():
     #node.start()
 
 
-    tcpserver = TCPServer(args.a,  args.i, args.p, args.s)
+    tcpserver = TCPServer(args.a,  args.i, args.p, args.s, args.c)
     try:
          pid = os.fork()
     except Exception, e:
