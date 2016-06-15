@@ -60,6 +60,7 @@ class TCPServer():
             s = socket.socket()
             host = self.address
             port = self.port
+            print self.port, self.address
             s.bind((host, port))
             s.listen(5)
             while True:
