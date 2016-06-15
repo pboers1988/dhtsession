@@ -67,16 +67,24 @@ class TCPServer():
 
     def initserver(self):
         try:
-            s = socket.socket()
+            s = socket.socket(AF_INET, SOCK_STREAM)
             host = self.anycast
             port = self.port
-            s.bind((host, port))
+            s.bind(('', port))
+            f = open('/root/5gb.bin','rb')
             s.listen(5)
             while True:
                 c, addr = s.accept()
                 print 'Got connection from', addr
-                c.send('Thank you for your connecting')
-                time.sleep(60)
+                c.send('Transferring Data')
+                l = f.read(1024)
+                while l:
+                    print 'Sending...'
+                    c.send(l)
+                    l = f.read(1024)
+                f.close
+                c.send('Done Sending')
                 c.close()
+                print "Done Sending"
         except Exception, e:
             raise e
