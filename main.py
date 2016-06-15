@@ -19,9 +19,9 @@ def main():
     #print "Starting kserver"
     #dht = kademlia.initkserver()
 
-    node = ChordNode(args.a, args.p, args.i)
+    #node = ChordNode(args.a, args.p, args.i)
 
-    node.start()
+    #node.start()
 
 
     tcpserver = TCPServer(args.a,  args.i, args.s)
