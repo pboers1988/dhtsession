@@ -42,9 +42,8 @@ class TCPServer():
                         print packet_info
                         print "ACK but not connected PANIC"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
-                        print packet_info[0] +":" + str(packet_info[1])
+                        print packet_info
                         print conn.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
-
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print packet_info
                         print "No Ack but no new connection. Passing to application"
