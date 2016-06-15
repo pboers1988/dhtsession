@@ -24,7 +24,7 @@ def main():
     #node.start()
 
 
-    tcpserver = TCPServer(args.a,  args.i, args.s)
+    tcpserver = TCPServer(args.a,  args.i, args.p, args.s)
     tcpserver.initlistener()
 
     # s.listen(1)

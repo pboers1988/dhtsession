@@ -9,10 +9,11 @@ from chord import ChordClient
 
 class TCPServer():
     """docstring for TCPServer"""
-    def __init__(self, address, hostip, port=8080):
+    def __init__(self, address, hostip, chordport, port=8080):
         self.address = address
         self.port = port
         self.hostip = hostip
+        self.chordport = chordport
 
     def initlistener(self):
 
@@ -21,7 +22,7 @@ class TCPServer():
         except Exception, e:
             raise e
 
-        client = ChordClient(self.address, self.port)
+        client = ChordClient(self.address, self.chordport)
         conn = client.connection()
         try:
             while 1:
