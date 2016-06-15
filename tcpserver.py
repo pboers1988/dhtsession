@@ -47,6 +47,8 @@ class TCPServer():
                         print "No Ack but no new connection. Passing to application"
                     elif (int(packet_info[4]) % 2 == 1):
                         print "Fin"
+                    elif ( conn.get(packet_info[0] +":" + str(packet_info[1])) ==  self.hostip):
+                        print "Last Ack"
                     else:
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
         except Exception, e:
