@@ -21,30 +21,10 @@ def main():
 
 
     tcpserver = TCPServer(args.a,  args.i, args.p, args.s)
+    print "Starting Listener"
     tcpserver.initlistener()
-
-    # s.listen(1)
-    # while 1:
-    #     connection, client_address = s.accept()
-    #     try:
-    #         ip = client_address[0]
-    #         cport = str(client_address[1])
-    #         tcpsocket = ip + ":" + cport
-    #         dht.set(tcpsocket, ip)
-    #          ft = Filter()
-    #          ft.filter(tcpsocket)
-    #         # Receive the data in small chunks and retransmit it
-    #         while True:
-    #             data = connection.recv(16)
-    #             print data
-    #             if data:
-    #                 connection.sendall(data)
-    #             else:
-    #                 print 'no more data from', client_address
-    #                 break
-    #     finally:
-    #         # Clean up the connection
-    #         connection.close()
+    print "Starting Server"
+    tcpserber.initserver()
 
     while True:
         pass

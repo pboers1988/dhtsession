@@ -4,6 +4,7 @@ from ft import Filter
 import os
 #from kserver import Kserver
 from chord import ChordClient
+import time
 
 
 
@@ -50,5 +51,22 @@ class TCPServer():
                         print "Last Ack"
                     else:
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
+        except Exception, e:
+            raise e
+
+
+    def initserver(self):
+        try:
+            s = socket.socket()
+            host = self.address
+            port = self.port
+            s.bind((host, port))
+            s.listen(5)
+            while True:
+                c, addr = s.accept()
+                print 'Got connection from', addr
+                c.send('Thank you for your connecting')
+                time.sleep(10)
+                c.close()
         except Exception, e:
             raise e
