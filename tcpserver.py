@@ -55,8 +55,12 @@ class TCPServer():
                         print packet_info
                         try:
                             print "Setting the Host"
-                            dht[packet_info[0] +":" + str(packet_info[1])] = [self.hostip]
-                            print dht[packet_info[0] +":" + str(packet_info[1])]
+                            key = packet_info[0] +":" + str(packet_info[1])
+                            print key
+                            value = self.hostip
+                            print value
+                            dht[key] = [value]
+                            print "The result is: " + dht[key]
                         except Exception, e:
                             print "Doh went wrong...."
                             raise e
