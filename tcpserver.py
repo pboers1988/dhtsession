@@ -67,7 +67,7 @@ class TCPServer():
 
     def initserver(self):
         try:
-            s = socket.socket(AF_INET, SOCK_STREAM)
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             host = self.anycast
             port = self.port
             s.bind(('', port))
