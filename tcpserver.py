@@ -41,28 +41,26 @@ class TCPServer():
                         
                         try:
                             print "Getting the host"
-                            dest = dht[packet_info[0] +":" + str(packet_info[1])]
+                            dest = self.dht[packet_info[0] +":" + str(packet_info[1])]
+                            print dest
                         except Exception, e:
-                            print "Doh went wrong...."
+                            print e
                             raise e
 
-                        print "The correct destination = " + dest
+                        print "The correct destination = " + dest[0]
                         packet = Filter.repack(buff, dest)
                         sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
-                        sender.sendto(packet, (dest, 0))
+                        sender.sendto(packet, (dest[0], 0))
                         print "Forwarded packet"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
                         try:
                             print "Setting the Host"
                             key = packet_info[0] +":" + str(packet_info[1])
-                            print key
                             value = self.hostip
-                            print value
-                            dht[key] = [value]
-                            print "The result is: " + dht[key]
+                            self.dht[key] = [value]
                         except Exception, e:
-                            print "Doh went wrong...."
+                            print e
                             raise e
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print packet_info
