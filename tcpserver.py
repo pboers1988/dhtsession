@@ -23,9 +23,7 @@ class TCPServer():
             s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
         except Exception, e:
             raise e
-
-        client = ChordClient(self.hostip, self.chordport)
-        conn = client.connection()
+        print self.dht
         try:
             while 1:
                 buff, address = s.recvfrom(65535)

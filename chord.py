@@ -24,9 +24,6 @@ class ChordNode():
             print "Joining DHT group"
             try:
                 print "Starting server"
-                print self.hostip
-                print self.port
-                print self.address
                 dht = DHT(self.hostip, self.port, boot_host=self.address, boot_port=self.port)
                 return dht
             except Exception, e:
