@@ -71,12 +71,14 @@ class TCPServer():
             host = self.anycast
             port = self.port
             s.bind(('', port))
-            f = open('/root/5gb.bin','rb')
             s.listen(5)
             while True:
                 c, addr = s.accept()
                 print 'Got connection from', addr
-                c.send('Transferring Data')
+                c.send("""\
+HTTP/1.1 200 OK
+""")
+                f = open('/root/2gig.bin','rb')
                 l = f.read(1024)
                 while l:
                     print 'Sending...'
