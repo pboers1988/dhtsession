@@ -90,7 +90,7 @@ class Filter(object):
 
     @staticmethod
     def repack(buff, dest):
-        print "hello"
+        print dest
         bufflength = len(buff)
         ip_header = buff[0:20]
         iph = unpack('!BBHHHBBH4s4s', ip_header)

@@ -42,13 +42,13 @@ class TCPServer():
                         try:
                             print "Getting the host"
                             dest = self.dht[packet_info[0] +":" + str(packet_info[1])]
-                            print dest
                         except Exception, e:
                             print e
                             raise e
 
                         print "The correct destination = " + dest[0]
-                        packet = Filter.repack(buff, dest)
+                        packet = Filter.repack(buff, dest[0])
+                        print packet
                         sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
                         sender.sendto(packet, (dest[0], 0))
                         print "Forwarded packet"
@@ -59,6 +59,7 @@ class TCPServer():
                             key = packet_info[0] +":" + str(packet_info[1])
                             value = self.hostip
                             self.dht[key] = [value]
+                            time.sleep(1)
                         except Exception, e:
                             print e
                             raise e
