@@ -23,7 +23,6 @@ class TCPServer():
             s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
         except Exception, e:
             raise e
-        print self.dht
         try:
             while 1:
                 buff, address = s.recvfrom(65535)
@@ -41,8 +40,10 @@ class TCPServer():
                         print "Getting the right host"
                         
                         try:
+                            print "Getting the host"
                             dest = dht[packet_info[0] +":" + str(packet_info[1])]
                         except Exception, e:
+                            print "Doh went wrong...."
                             raise e
 
                         print "The correct destination = " + dest
@@ -53,8 +54,11 @@ class TCPServer():
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
                         try:
+                            print "Setting the Host"
                             dht[packet_info[0] +":" + str(packet_info[1])] = [self.hostip]
+                            print dht[packet_info[0] +":" + str(packet_info[1])]
                         except Exception, e:
+                            print "Doh went wrong...."
                             raise e
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print packet_info
