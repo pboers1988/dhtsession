@@ -88,13 +88,13 @@ class TCPServer():
                 c.send("""\
 HTTP/1.1 200 OK
 """)
-                f = open('/root/2gig.bin','rb')
-                l = f.read(1024)
-                while l:
-                    print 'Sending...'
-                    c.send(l)
-                    l = f.read(1024)
-                f.close
+                #f = open('/root/2gig.bin','rb')
+                #l = f.read(1024)
+                #while l:
+                #    print 'Sending...'
+                #    c.send(l)
+                #    l = f.read(1024)
+                #f.close
                 c.send('Done Sending')
                 c.close()
                 print "Done Sending"
