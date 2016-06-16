@@ -29,11 +29,9 @@ class Filter(object):
                     and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
                     print "Established connection, Closing or Time Wait"
                     return True # This connection is a "normal connction and should be passed to the application"
-                elif (entry.orig_l4proto == IPPROTO_TCP and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
+                elif (entry.orig_l4proto == IPPROTO_TCP):
                     print "Not an Established connection"
                     return False
-                else:
-                    pass
         except Exception, e:
             raise e
 
@@ -49,8 +47,6 @@ class Filter(object):
                 elif ((entry.orig_l4proto == IPPROTO_TCP) and (entry.tcp_state == TCP_CONNTRACK_SYN_RECV) and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src) ):
                     print "New Connection"
                     return True
-                else:
-                    pass
         except Exception, e:
             raise e
 
@@ -101,5 +97,6 @@ class Filter(object):
 
         newiph = struct.pack('!BBHHHBBH4s4s', iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr)
         packet = newiph + buff[21:bufflength]
-
+        print iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr
+        print packet
         return packet
