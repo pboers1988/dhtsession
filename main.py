@@ -38,19 +38,11 @@ def startTCP(tcpserver):
 
 def startChord(node):
     try:
-        pid = os.fork()
+        print "Starting DHT overlay"
+        dht = node.join()
+        return dht
     except Exception, e:
         raise e
-
-    if (pid == 0):
-        try:
-            print "Starting DHT overlay"
-            dht = node.join()
-            return dht
-        except Exception, e:
-            raise e
-        finally:
-            os._exit(0)
    
     
 
