@@ -15,12 +15,11 @@ def main():
     parser.add_argument('-c', type= str, required=True)
     args = parser.parse_args()
 
-    #node = ChordNode(args.a, args.p, args.i)
+    node = ChordNode(args.a, args.p, args.i)
+    dht = node.join()
 
-    #node.start()
 
-
-    tcpserver = TCPServer(args.a,  args.i, args.p, args.s, args.c)
+    tcpserver = TCPServer(args.a, args.i, args.p, args.s, args.c, dht)
     try:
          pid = os.fork()
     except Exception, e:
@@ -37,7 +36,7 @@ def main():
     else:
         pass
 
-    print "Starting Server"
+    print "Starting TCPServer"
     tcpserver.initserver()
 
     while True:

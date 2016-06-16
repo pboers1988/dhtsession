@@ -3,19 +3,19 @@ from struct import *
 from ft import Filter
 import os
 #from kserver import Kserver
-from chord import ChordClient
 import time
 
 
 
 class TCPServer():
     """docstring for TCPServer"""
-    def __init__(self, address, hostip, chordport, port, anycast):
+    def __init__(self, address, hostip, chordport, port, anycast, dht):
         self.address = address
         self.port = port
         self.hostip = hostip
         self.chordport = chordport
         self.anycast = anycast
+        self.dht = dht
 
     def initlistener(self):
 
@@ -24,7 +24,7 @@ class TCPServer():
         except Exception, e:
             raise e
 
-        client = ChordClient(self.address, self.chordport)
+        client = ChordClient(self.hostip, self.chordport)
         conn = client.connection()
         try:
             while 1:
@@ -41,7 +41,12 @@ class TCPServer():
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
                         print "ACK but not connected PANIC"
                         print "Getting the right host"
-                        dest = conn.get(packet_info[0] +":" + str(packet_info[1]))
+                        
+                        try:
+                            dest = dht[packet_info[0] +":" + str(packet_info[1])]
+                        except Exception, e:
+                            raise e
+
                         print "The correct destination = " + dest
                         packet = Filter.repack(buff, dest)
                         sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
@@ -49,7 +54,10 @@ class TCPServer():
                         print "Forwarded packet"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
-                        print conn.set(packet_info[0] +":" + str(packet_info[1]), self.hostip)
+                        try:
+                            dht[packet_info[0] +":" + str(packet_info[1])] = [self.hostip]
+                        except Exception, e:
+                            raise e
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print packet_info
                         print "No Ack but no new connection. Passing to application"

@@ -1,5 +1,4 @@
-from chorddht.node import Node  
-from chorddht.client import ChordConnection
+from pydht import DHT
 import sys
 import os
 
@@ -11,38 +10,41 @@ class ChordNode():
         self.port = port
         self.hostip = hostip
 
-    def join(self, node):
+    def join(self):
         if self.address == self.hostip:
             print "Only node in group"
-        else:
-            print "Joining group"
-            bind_addr = self.address + ":" + str(self.port)
-            print bind_addr
-            node.join(bind_addr)
-
-    def start(self):
-        bind_addr = self.hostip + ":" + str(self.port)
-        try:    
-            pid = os.fork()
-        except Exception, e:
-            raise e
-
-        if (pid == 0):
-            try:
-                print "Starting server"
-                node = Node(bind_addr)
-                self.join(node)
+            try:    
+                pid = os.fork()
             except Exception, e:
                 raise e
+
+            if (pid == 0):
+                try:
+                    print "Starting server"
+                    dht = DHT(self.hostip, self.port)
+                    return dht
+                except Exception, e:
+                    raise e
+                finally:
+                    os._exit(0)
+            else:
+                pass
         else:
-            pass
+            print "Joining DHT group"
+            try:    
+                pid = os.fork()
+            except Exception, e:
+                raise e
 
-class ChordClient():
-    """docstring for ChordClient"""
-    def __init__(self, address, port):
-        self.address = address
-        self.port = port
-
-    def connection(self):
-        conn_addr = self.address + ":" + str(self.port)
-        return ChordConnection(conn_addr)       
+            if (pid == 0):
+                try:
+                    print "Starting server"
+                    dht = DHT(self.hostip, self.port, boot_host=self.address, boot_port=self.port)
+                    return dht
+                except Exception, e:
+                    raise e
+                finally:
+                    os._exit(0)
+            else:
+                pass
+    
