@@ -37,20 +37,22 @@ class TCPServer():
                         print "Established, Closing or Time Wait"
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
                         print "ACK but not connected PANIC"
-                        print "Getting the right host"
-                        
+                  
                         try:
                             print "Getting the host"
-                            dest = self.dht[packet_info[0] +":" + str(packet_info[1])]
+                            key = packet_info[0] +":" + str(packet_info[1])
+                            dest = str(self.dht[key][0])
+                            time.sleep(5)
+                            print type(dest)
                         except Exception, e:
                             print e
                             raise e
 
-                        print "The correct destination = " + dest[0]
-                        packet = Filter.repack(buff, dest[0])
+                        print "The correct destination = " + dest
+                        packet = Filter.repack(buff, dest)
                         print packet
                         sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
-                        sender.sendto(packet, (dest[0], 0))
+                        sender.sendto(packet, (dest, 0))
                         print "Forwarded packet"
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
@@ -59,7 +61,7 @@ class TCPServer():
                             key = packet_info[0] +":" + str(packet_info[1])
                             value = self.hostip
                             self.dht[key] = [value]
-                            time.sleep(1)
+                            time.sleep(2)
                         except Exception, e:
                             print e
                             raise e
