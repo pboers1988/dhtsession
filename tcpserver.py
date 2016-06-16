@@ -4,6 +4,7 @@ from ft import Filter
 import os
 #from kserver import Kserver
 import time
+from chord import ChordNode
 
 
 
@@ -16,6 +17,19 @@ class TCPServer():
         self.chordport = chordport
         self.anycast = anycast
         self.dht = dht
+        self.cache = {}
+
+    def setcache(self, key, value):
+        try:
+            self.cache[key] = [value]
+        except Exception, e:
+            return e
+        
+    def getcache(self, key):
+        try:
+            return self.cache[key]
+        except Exception, e:
+            return None
 
     def initlistener(self):
 
@@ -35,44 +49,46 @@ class TCPServer():
                     if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1], table)):  # Check if i the ack flag is set and if it is in the connection table
                         print packet_info
                         print "Established, Closing or Time Wait"
+
+
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
                         print "ACK but not connected PANIC"
                   
-                        try:
-                            print "Getting the host"
-                            key = packet_info[0] +":" + str(packet_info[1])
-                            dest = str(self.dht[key][0])
-                            time.sleep(5)
-                            print type(dest)
-                        except Exception, e:
-                            print e
-                            raise e
-
+                        key = packet_info[0] +":" + str(packet_info[1])
+                       
+                        # see If we have the result in the cache
+                        dest = self.getcache(key)
+                        if dest is None:
+                            dest = ChordNode.get(self.dht, key)
+                            self.setcache(key,dest)                     
+                        
                         print "The correct destination = " + dest
                         packet = Filter.repack(buff, dest)
                         print packet
                         sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
                         sender.sendto(packet, (dest, 0))
                         print "Forwarded packet"
+
+
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
-                        try:
-                            print "Setting the Host"
-                            key = packet_info[0] +":" + str(packet_info[1])
-                            value = self.hostip
-                            self.dht[key] = [value]
-                            time.sleep(2)
-                        except Exception, e:
-                            print e
-                            raise e
+
+                        key = packet_info[0] +":" + str(packet_info[1])
+                        value = self.hostip
+                        ChordNode.set(self.dht, key, value)
+
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print packet_info
                         print "No Ack but no new connection. Passing to application"
+
+
                     elif (int(packet_info[4]) % 2 == 1):
                         print "Fin"
+
                     elif ( conn.get(packet_info[0] +":" + str(packet_info[1])) ==  self.hostip):
                         print packet_info
                         print "Last Ack - Closed connection"
+
                     else:
                         print packet_info
                         print "Don't know whats going on here so doing a lookup and otherwise RST"

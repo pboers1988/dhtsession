@@ -1,6 +1,7 @@
 from pydht import DHT
 import sys
 import os
+import time
 
 
 class ChordNode():
@@ -28,3 +29,23 @@ class ChordNode():
                 return dht
             except Exception, e:
                 raise e
+
+
+    @staticmethod
+    def get(dht, key):
+        print "Getting the host with key: " + key
+        try:
+            value = dht[key][0]
+            time.sleep(1)
+            return value
+        except Exception, e:
+            return e
+
+    @staticmethod
+    def set(dht, key, value):
+        print "Setting the host with key: " + key + "and value: " + value
+        try:
+            dht[key] = [value]
+            time.sleep(2)
+        except Exception, e:
+            return e

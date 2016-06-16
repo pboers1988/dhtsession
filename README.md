@@ -11,10 +11,16 @@ git clone https://github.com/pboers1988/dhtsession
 ```
 
 ```
-pip install kademlia
 pip install pynetfilter_conntrack
-pip install twisted
 pip install ipy
+
+```
+
+Then you need to clone a dht implementation and install it. (Installing it with pip is broke)
+```
+git clone https://github.com/isaaczafuta/pydht
+cd pydht
+python setup.py install
 ```
 
 and 
@@ -46,10 +52,11 @@ A number of options exist
 -p The port of the DHT server (defaults to 7000)
 -s The TCP port you want to filter on and store in the DHT (defaults to 8080)
 -i The ip Identifier of the node.
+-c The anycast ip that is configured
 ```
 
 Example:
 
 ```
-python main.py  -a 10.100.10.1 -i 10.100.10.4
+python main.py  -a 10.100.10.1 -i 10.100.10.4 -c 192.168.0.1
 ```
