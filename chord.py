@@ -3,7 +3,6 @@ import sys
 import os
 import time
 
-
 class ChordNode():
     """docstring for ChordNode"""
     def __init__(self, address, port, hostip):
@@ -17,6 +16,7 @@ class ChordNode():
             try:
                 print "Starting server"
                 dht = DHT(self.hostip, self.port)
+                dht["key"] = ["value"]
                 return dht
             except Exception, e:
                 raise e
@@ -45,9 +45,8 @@ class ChordNode():
     def set(dht, key, value):
         print "Setting the host with key: " + key + " and value: " + value
         try:
-            print type(key)
-            print type(value)
-            print (dht[key] = [value])
+            print dht
+            dht[key] = [value]
             print "If it was succesfull print this"
             time.sleep(2)
             dht["hi"] = ["hello"]
