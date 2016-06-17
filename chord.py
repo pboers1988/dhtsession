@@ -28,7 +28,7 @@ class ChordNode():
                 dht = DHT(self.hostip, self.port, boot_host=self.address, boot_port=self.port)
                 return dht
             except Exception, e:
-                raise e
+                print e
 
 
     @staticmethod
@@ -39,7 +39,7 @@ class ChordNode():
             time.sleep(1)
             return value
         except Exception, e:
-            return e
+            print e
 
     @staticmethod
     def set(dht, key, value):
@@ -47,5 +47,6 @@ class ChordNode():
         try:
             dht[key] = [value]
             time.sleep(2)
+            dht["hi"] = ["hello"]
         except Exception, e:
-            return e
+            print e
