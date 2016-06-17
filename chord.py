@@ -46,6 +46,7 @@ class ChordNode():
         print "Setting the host with key: " + key + " and value: " + value
         try:
             dht[key] = [value]
+            print "If it was succesfull print this "
             time.sleep(2)
             dht["hi"] = ["hello"]
         except Exception, e:
