@@ -124,6 +124,7 @@ class Filter(object):
         data = buff[h_size:]
 
         print "Ip Header:", iph
+        print "Dest", dest
         d_addr = socket.inet_aton(dest)
 
         print "Packing new Ip header"
@@ -131,11 +132,7 @@ class Filter(object):
         print "Packed"
 
         try:
-            print "ip", type(newiph)
-            print "tcp",type(tcp_header)
-            print "data",type(data)
             packet = newiph + tcp_header + data
         except Exception, e:
             print e
-        print "New packet created", repr(packet)
         return packet
