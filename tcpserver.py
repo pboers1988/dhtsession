@@ -54,7 +54,7 @@ class TCPServer():
                         print "ACK but not connected PANIC"
                         print packet_info
                   
-                        key = packet_info[0] +":" + str(packet_info[1])
+                        key = packet_info[0] +"-" + str(packet_info[1])
                        
                         # see If we have the result in the cache
                         dest = self.getcache(key)
