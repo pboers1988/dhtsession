@@ -129,11 +129,12 @@ class Filter(object):
         print "Packing new Ip header"
         newiph = pack('!BBHHHBBH4s4s', iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr)
         print "Packed"
+
         try:
-            type(newiph)
-            type(tcph)
-            type(data)
-            packet = newiph + tcph + data
+            print "ip", type(newiph)
+            print "tcp",type(tcp_header)
+            print "data",type(data)
+            packet = newiph + tcp_header + data
         except Exception, e:
             print e
         print "New packet created", repr(packet)
