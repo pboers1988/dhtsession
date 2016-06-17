@@ -12,22 +12,23 @@ class ChordNode():
         self.hostip = hostip
 
     def join(self):
+        print "Starting DHT Overlay"
         if self.address == self.hostip:
-            print "Only node in group"
+            print "Only node in swarm"
             try:
                 print "Starting server"
                 dht = DHT(self.hostip, self.port)
-                dht[u'hi'] = ['hi2']
-                print dht
+                print "DHT started"
                 return dht
             except Exception, e:
                 raise e
 
         else:
-            print "Joining DHT group"
+            print "Joining DHT swarm"
             try:
                 print "Starting server"
                 dht = DHT(self.hostip, self.port, boot_host=self.address, boot_port=self.port)
+                print "DHT started"
                 return dht
             except Exception, e:
                 print e
