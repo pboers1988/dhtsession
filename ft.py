@@ -135,4 +135,7 @@ class Filter(object):
             packet = newiph + tcp_header + data
         except Exception, e:
             print e
+
+        print "Passing to parser to double check the Header"
+        Filter.parser(packet)
         return packet
