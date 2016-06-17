@@ -48,5 +48,7 @@ class ChordSetter():
         print "Setting the host with key: " + key + " and value: " + value
         try:
             dht[key] = value
+            print "key set"
+            print dht[key]
         except Exception, e:
             print e

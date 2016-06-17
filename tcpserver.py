@@ -60,6 +60,7 @@ class TCPServer():
                         dest = self.getcache(key)
                         if dest is None:
                             dest = ChordSetter.getval(self.dht, key)
+                            print "Dest is:", dest
                             self.setcache(key,dest)
                             print "Key is in chord"
                         else:
@@ -67,7 +68,7 @@ class TCPServer():
                         
                         print "The correct destination = " + dest
                         packet = Filter.repack(buff, dest)
-                        print packet
+                        print "Packet =", packet
                         sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
                         sender.sendto(packet, (dest, 0))
                         print "Forwarded packet"
