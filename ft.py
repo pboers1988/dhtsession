@@ -107,8 +107,6 @@ class Filter(object):
         # Tcp stuff We Need this
         tcp_header = buff[iph_length:iph_length+20]
 
-        s_addr = socket.inet_ntoa(iph[8])
-        d_addr = socket.inet_ntoa(iph[9])
         print "I am about to unpack the TCP header"
         #now unpack them :)
         tcph = unpack('!HHLLBBHHH' , tcp_header) 
@@ -128,8 +126,9 @@ class Filter(object):
         print "Ip Header:", iph
         d_addr = socket.inet_aton(dest)
 
+        print "Packing new Ip header"
         newiph = pack('!BBHHHBBH4s4s', iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr)
-
-        packet = iph + tcph + data
-
+        print "Packed"
+        packet = newiph + tcph + data
+        print "New packet created", repr(packet)
         return packet
