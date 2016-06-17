@@ -47,8 +47,8 @@ class TCPServer():
                     table = Filter.dump_table()
                     if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1], table)): 
                      # Check if i the ack flag is set and if it is in the connection table
-                        #print packet_info
-                        #print "Established, Closing or Time Wait"
+                        print packet_info
+                        print "Established, Closing or Time Wait"
                         pass
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
                         print "ACK but not connected PANIC"
@@ -83,11 +83,12 @@ class TCPServer():
                         ChordSetter.setval(self.dht, key, value)
 
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
-                        # print packet_info
-                        # print "No Ack but no new connection. Passing to application"
+                        print packet_info
+                        print "No Ack but no new connection. Passing to application"
                         pass
 
                     elif (int(packet_info[4]) % 2 == 1):
+                        print packet_info
                         print "Fin"
 
                     elif ( conn.get(packet_info[0] +":" + str(packet_info[1])) ==  self.hostip):

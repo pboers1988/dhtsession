@@ -96,13 +96,12 @@ class Filter(object):
         ip_header = buff[0:20]
         iph = unpack('!BBHHHBBH4s4s', ip_header)
         print "Ip Header:", iph
-        print "Old dest addrs:", iph[9]
+        print "Old dest addrs:", repr(iph[9])
         print "Old dest addrs Human readable:", socket.inet_ntoa(iph[9])
         print "The new Dest human readable:", dest
         d_addr = socket.inet_aton(dest)
-        print "Packed dest address", d_addr
-        newiph = struct.pack('!BBHHHBBH4s4s', iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr)
-        packet = newiph + buff[21:bufflength]
-        #print iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr
-        print "Packet",packet
+        print "Packed dest address", repr(d_addr)
+        newiph = pack('!BBHHHBBH4s4s', iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr)
+        packet = newiph + buff[21:]
+        print "Packet",repr(packet)
         return packet
