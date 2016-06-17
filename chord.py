@@ -39,7 +39,7 @@ class ChordSetter():
     def getval(dht, key):
         print "Getting the host with key: " + key
         try:
-            return value = dht[key]
+            return dht[key]
         except Exception, e:
             print e
 
