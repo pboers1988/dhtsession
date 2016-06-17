@@ -27,7 +27,7 @@ class Filter(object):
                  or (entry.tcp_state == TCP_CONNTRACK_CLOSE_WAIT) or (entry.tcp_state == TCP_CONNTRACK_FIN_WAIT) or (entry.tcp_state == TCP_CONNTRACK_TIME_WAIT) \
                   or  (entry.tcp_state == TCP_CONNTRACK_CLOSE))\
                     and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
-                    print "Established connection, Closing or Time Wait"
+                    #print "Established connection, Closing or Time Wait"
                     return True # This connection is a "normal connction and should be passed to the application"
                 elif (entry.orig_l4proto == IPPROTO_TCP):
                     print "Not an Established connection"
