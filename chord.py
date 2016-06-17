@@ -17,7 +17,7 @@ class ChordNode():
             try:
                 print "Starting server"
                 dht = DHT(self.hostip, self.port)
-                dht['hi'] = ['hi2']
+                dht[u'hi'] = ['hi2']
                 print dht
                 return dht
             except Exception, e:
@@ -54,13 +54,10 @@ class ChordSetter():
             print key
             print value
             print "Setting......"
-            k = pickle.dumps(key)
-            v - pickle.dumps(value)
-            print k
-            print v
-            dht[k] = [v]
+            dht[key] = [value]
             print "If it was succesfull print this"
             time.sleep(2)
+            print dht[key]
             print "Slept"
         except Exception, e:
             print e
