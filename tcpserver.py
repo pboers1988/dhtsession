@@ -5,8 +5,6 @@ import os
 import time
 from chord import ChordSetter
 
-
-
 class TCPServer():
     """docstring for TCPServer"""
     def __init__(self, address, hostip, chordport, port, anycast, dht):
@@ -76,7 +74,7 @@ class TCPServer():
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
 
-                        key = packet_info[0] +"-" + str(packet_info[1])
+                        key = packet_info[0] +":" + str(packet_info[1])
                         value = self.hostip
                         print "Setting values"
                         ChordSetter.setval(self.dht, key, value)

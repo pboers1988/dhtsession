@@ -2,6 +2,7 @@ from pydht import DHT
 import sys
 import os
 import time
+import cPickle as pickle
 
 class ChordNode():
     """docstring for ChordNode"""
@@ -16,7 +17,7 @@ class ChordNode():
             try:
                 print "Starting server"
                 dht = DHT(self.hostip, self.port)
-                dht["hi"] = ["hi2"]
+                dht['hi'] = ['hi2']
                 print dht
                 return dht
             except Exception, e:
@@ -38,9 +39,11 @@ class ChordSetter():
         print "Getting the host with key: " + key
         try:
             print dht
-            value = dht[key][0]
+            k = pickle.dumps(key)
+
+            value = dht[k][0]
             time.sleep(1)
-            return value
+            return pickle.loads(value)
         except Exception, e:
             print e
 
@@ -48,14 +51,16 @@ class ChordSetter():
     def setval(dht, key, value):
         print "Setting the host with key: " + key + " and value: " + value
         try:
-            print dht
-            key = 'hi'
             print key
             print value
             print "Setting......"
-            dht[key] = [value]
+            k = pickle.dumps(key)
+            v - pickle.dumps(value)
+            print k
+            print v
+            dht[k] = [v]
             print "If it was succesfull print this"
             time.sleep(2)
-            dht["hi"] = ["hello"]
+            print "Slept"
         except Exception, e:
             print e
