@@ -95,11 +95,11 @@ class Filter(object):
         print "Packet Length:", bufflength
         ip_header = buff[0:20]
         iph = unpack('!BBHHHBBH4s4s', ip_header)
-        print iph
+        print "Ip Header:", iph
         d_addr = socket.inet_aton(dest)
-        print d_addr
+        print "Packed dest address", d_addr
         newiph = struct.pack('!BBHHHBBH4s4s', iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr)
         packet = newiph + buff[21:bufflength]
-        print iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr
-        print packet
+        #print iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr
+        print "Packet",packet
         return packet
