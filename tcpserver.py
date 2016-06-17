@@ -60,7 +60,10 @@ class TCPServer():
                         dest = self.getcache(key)
                         if dest is None:
                             dest = ChordNode.get(self.dht, key)
-                            self.setcache(key,dest)                     
+                            self.setcache(key,dest)
+                            print "Key is in chord"
+                        else:
+                            print "Key is in the cache"                     
                         
                         print "The correct destination = " + dest
                         packet = Filter.repack(buff, dest)
@@ -73,7 +76,7 @@ class TCPServer():
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
 
-                        key = packet_info[0] +":" + str(packet_info[1])
+                        key = packet_info[0] +"-" + str(packet_info[1])
                         value = self.hostip
                         ChordNode.set(self.dht, key, value)
 

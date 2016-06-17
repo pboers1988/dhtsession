@@ -36,6 +36,7 @@ class ChordNode():
     def get(dht, key):
         print "Getting the host with key: " + key
         try:
+            print dht
             value = dht[key][0]
             time.sleep(1)
             return value
