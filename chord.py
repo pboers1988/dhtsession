@@ -9,16 +9,16 @@ class ChordNode():
         self.address = address
         self.port = port
         self.hostip = hostip
-        self.dht = None
 
     def join(self):
         if self.address == self.hostip:
             print "Only node in group"
             try:
                 print "Starting server"
-                self.dht = DHT(self.hostip, self.port)
-                self.dht['hi'] = ['hi2']
-                print self.dht['hi']
+                dht = DHT(self.hostip, self.port)
+                dht["hi"] = ["hi2"]
+                print dht
+                return dht
             except Exception, e:
                 raise e
 
@@ -26,29 +26,32 @@ class ChordNode():
             print "Joining DHT group"
             try:
                 print "Starting server"
-                self.dht = DHT(self.hostip, self.port, boot_host=self.address, boot_port=self.port)
-                print self.dht['hi']
+                dht = DHT(self.hostip, self.port, boot_host=self.address, boot_port=self.port)
+                return dht
             except Exception, e:
                 print e
 
+class ChordSetter():
 
-    def getval(self, key):
+    @staticmethod
+    def getval(dht, key):
         print "Getting the host with key: " + key
         try:
-            print self.dht
-            value = self.dht[key][0]
+            print dht
+            value = dht[key][0]
             time.sleep(1)
             return value
         except Exception, e:
             print e
 
-    def setval(self, key, value):
+    @staticmethod
+    def setval(dht, key, value):
         print "Setting the host with key: " + key + " and value: " + value
         try:
-            print self.dht
-            self.dht[key] = [value]
+            print dht
+            dht[key] = [value]
             print "If it was succesfull print this"
             time.sleep(2)
-            self.dht["hi"] = ["hello"]
+            dht["hi"] = ["hello"]
         except Exception, e:
             print e

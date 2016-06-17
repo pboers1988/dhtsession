@@ -3,7 +3,7 @@ from struct import *
 from ft import Filter
 import os
 import time
-from chord import ChordNode
+from chord import ChordSetter
 
 
 
@@ -59,7 +59,7 @@ class TCPServer():
                         # see If we have the result in the cache
                         dest = self.getcache(key)
                         if dest is None:
-                            dest = self.dht.getval(key)
+                            dest = ChordSetter.getval(self.dht, key)
                             self.setcache(key,dest)
                             print "Key is in chord"
                         else:
@@ -76,10 +76,10 @@ class TCPServer():
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
 
-                        key = packet_info[0] +":" + str(packet_info[1])
+                        key = packet_info[0] +"-" + str(packet_info[1])
                         value = self.hostip
-                        print "Setting Value"
-                        self.dht.setval(key, value)
+                        print "Setting values"
+                        ChordSetter.setval(self.dht, key, value)
 
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         # print packet_info

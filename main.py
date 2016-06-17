@@ -57,8 +57,8 @@ def main():
     args = parser.parse_args()
 
     node = ChordNode(args.a, args.p, args.i)
-    node.join()
-    tcpserver = TCPServer(args.a, args.i, args.p, args.s, args.c, node)
+    dht = startChord(node)
+    tcpserver = TCPServer(args.a, args.i, args.p, args.s, args.c, dht)
     startlisten(tcpserver)
     startTCP(tcpserver)
 
