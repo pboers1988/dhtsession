@@ -54,7 +54,7 @@ class TCPServer():
                         print "ACK but not connected PANIC"
                         print packet_info
                   
-                        key = packet_info[0] +"-" + str(packet_info[1])
+                        key = packet_info[0] +":" + str(packet_info[1])
                        
                         # see If we have the result in the cache
                         dest = self.getcache(key)
@@ -76,9 +76,10 @@ class TCPServer():
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
                         print packet_info
 
-                        key = packet_info[0] +"-" + str(packet_info[1])
+                        key = packet_info[0] +":" + str(packet_info[1])
                         value = self.hostip
-                        self.dht.setval(self.dht, key, value)
+                        print "Setting Value"
+                        self.dht.setval(key, value)
 
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         # print packet_info
