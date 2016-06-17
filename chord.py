@@ -49,6 +49,10 @@ class ChordSetter():
         print "Setting the host with key: " + key + " and value: " + value
         try:
             print dht
+            key = 'hi'
+            print key
+            print value
+            print "Setting......"
             dht[key] = [value]
             print "If it was succesfull print this"
             time.sleep(2)
