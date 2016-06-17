@@ -98,6 +98,7 @@ class Filter(object):
         print "Ip Header:", iph
         print "Old dest addrs:", iph[9]
         print "Old dest addrs Human readable:", socket.inet_ntoa(iph[9])
+        print "The new Dest human readable:", dest
         d_addr = socket.inet_aton(dest)
         print "Packed dest address", d_addr
         newiph = struct.pack('!BBHHHBBH4s4s', iph[0], iph[1], iph[2], iph[3], iph[4], iph[5], iph[6],iph[7],iph[8],d_addr)
