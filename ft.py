@@ -132,6 +132,6 @@ class Filter(object):
         h_size = iph_length + tcph_length * 4
         data_size = len(buff) - h_size
 
-        print [s_addr, source_port, sequence, acknowledgement, flags]
+        print "New packet TCP Header", [s_addr, source_port, sequence, acknowledgement, flags]
 
         return packet
