@@ -111,10 +111,8 @@ class Filter(object):
         tcph = unpack('!HHLLBBHHH' , tcp_header) 
         print "That worked", tcph
         source_port = tcph[0]
-        dest_port = tcph[1]
         sequence = tcph[2]
         acknowledgement = tcph[3]
-        doff_reserved = tcph[4]
         tcph_length = doff_reserved >> 4
         
         flags = tcph[5]
@@ -123,7 +121,7 @@ class Filter(object):
         data_size = len(buff) - h_size
         data = packet[h_size:]
 
-        s_addr = socket.inet_ntoa(ihp[8])
+        s_addr = socket.inet_ntoa(iph[8])
         d_addr = socket.inet_ntoa(iph[9])
 
         print "Ip Header:", iph
@@ -162,7 +160,7 @@ class Filter(object):
         
         flags = tcph[5]
 
-        s_addr = socket.inet_ntoa(ihp[8])
+        s_addr = socket.inet_ntoa(iph[8])
         d_addr = socket.inet_ntoa(iph[9])
 
         print "New packet TCP Header", [d_addr, s_addr, source_port, sequence, acknowledgement, flags]
