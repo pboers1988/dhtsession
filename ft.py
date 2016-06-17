@@ -137,5 +137,5 @@ class Filter(object):
             print e
 
         print "Passing to parser to double check the Header"
-        Filter.parser(packet)
+        print Filter.parser(packet)
         return packet

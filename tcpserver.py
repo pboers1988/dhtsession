@@ -65,7 +65,7 @@ class TCPServer():
                             print "Key is in chord"
                         else:
                             print "Key is in the cache"                     
-                        
+                        print type(dest)
                         print "The correct destination = " + dest
                         packet = Filter.repack(buff, dest)
                         print "Packet =", packet
