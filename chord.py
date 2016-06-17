@@ -38,12 +38,7 @@ class ChordSetter():
     def getval(dht, key):
         print "Getting the host with key: " + key
         try:
-            print dht
-            k = pickle.dumps(key)
-
-            value = dht[k][0]
-            time.sleep(1)
-            return pickle.loads(value)
+            return value = dht[key]
         except Exception, e:
             print e
 
@@ -51,13 +46,6 @@ class ChordSetter():
     def setval(dht, key, value):
         print "Setting the host with key: " + key + " and value: " + value
         try:
-            print repr(key)
-            print repr(value)
-            print "Setting......"
-            dht[key] = [value]
-            print "If it was succesfull print this"
-            time.sleep(2)
-            print dht[key]
-            print "Slept"
+            dht[key] = value
         except Exception, e:
             print e

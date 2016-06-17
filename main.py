@@ -36,16 +36,7 @@ def startTCP(tcpserver):
         finally:
             os._exit(0)
 
-def startChord(node):
-    try:
-        print "Starting DHT overlay"
-        dht = node.join()
-        return dht
-    except Exception, e:
-        raise e
-   
-    
-
+ 
 def main():
     # parse command line options
     parser = argparse.ArgumentParser()
@@ -56,8 +47,6 @@ def main():
     parser.add_argument('-c', type= str, required=True)
     args = parser.parse_args()
 
-    #node = ChordNode(args.a, args.p, args.i)
-    #dht = startChord(node)
     tcpserver = TCPServer(args.a, args.i, args.p, args.s, args.c)
     startlisten(tcpserver)
     startTCP(tcpserver)
