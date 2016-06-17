@@ -16,7 +16,7 @@ class ChordNode():
             try:
                 print "Starting server"
                 dht = DHT(self.hostip, self.port)
-                dht["key"] = ["value"]
+                dht["hi"] = ["hi2"]
                 return dht
             except Exception, e:
                 raise e
