@@ -52,6 +52,7 @@ class TCPServer():
                         pass
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
                         print "ACK but not connected PANIC"
+                        print packet_info
                   
                         key = packet_info[0] +":" + str(packet_info[1])
                        

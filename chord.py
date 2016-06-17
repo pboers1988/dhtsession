@@ -43,7 +43,7 @@ class ChordNode():
 
     @staticmethod
     def set(dht, key, value):
-        print "Setting the host with key: " + key + "and value: " + value
+        print "Setting the host with key: " + key + " and value: " + value
         try:
             dht[key] = [value]
             time.sleep(2)
