@@ -51,8 +51,8 @@ class ChordSetter():
     def setval(dht, key, value):
         print "Setting the host with key: " + key + " and value: " + value
         try:
-            print key
-            print value
+            print repr(key)
+            print repr(value)
             print "Setting......"
             dht[key] = [value]
             print "If it was succesfull print this"

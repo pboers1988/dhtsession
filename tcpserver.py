@@ -3,17 +3,17 @@ from struct import *
 from ft import Filter
 import os
 import time
-from chord import ChordSetter
+from chord import ChordSetter, ChordNode
 
 class TCPServer():
     """docstring for TCPServer"""
-    def __init__(self, address, hostip, chordport, port, anycast, dht):
+    def __init__(self, address, hostip, chordport, port, anycast):
         self.address = address
         self.port = port
         self.hostip = hostip
         self.chordport = chordport
         self.anycast = anycast
-        self.dht = dht
+        self.dht = None
         self.cache = {}
 
     def setcache(self, key, value):
@@ -29,6 +29,8 @@ class TCPServer():
             return None
 
     def initlistener(self):
+        node = ChordNode(self.address, self.chordport, self.hostip)
+        self.dht = node.join()
 
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
