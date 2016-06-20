@@ -47,13 +47,10 @@ class TCPServer():
                     table = Filter.dump_table()
                     if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1], table)): 
                      # Check if i the ack flag is set and if it is in the connection table
-                        print packet_info
                         print "Established, Closing or Time Wait"
                         pass
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
-                        print "ACK but not connected PANIC"
-                        print packet_info
-                  
+                        print "ACK but not connected PANIC"                 
                         key = packet_info[0] +":" + str(packet_info[1])
                        
                         # see If we have the result in the cache
@@ -74,28 +71,22 @@ class TCPServer():
 
 
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
-                        print packet_info
-
                         key = packet_info[0] +":" + str(packet_info[1])
                         value = self.hostip
                         print "Setting values"
                         ChordSetter.setval(self.dht, key, value)
 
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
-                        print packet_info
                         print "No Ack but no new connection. Passing to application"
                         pass
 
                     elif (int(packet_info[4]) % 2 == 1):
-                        print packet_info
                         print "Fin"
 
                     elif ( conn.get(packet_info[0] +":" + str(packet_info[1])) ==  self.hostip):
-                        print packet_info
                         print "Last Ack - Closed connection"
 
                     else:
-                        print packet_info
                         print "Don't know whats going on here so doing a lookup and otherwise RST"
         except Exception, e:
             raise e

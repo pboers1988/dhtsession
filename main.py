@@ -44,7 +44,7 @@ def main():
     parser.add_argument('-a', type=str, required=True)
     parser.add_argument('-s', type=int, default=8080)
     parser.add_argument('-i', type=str, required=True)
-    parser.add_argument('-c', type= str, required=True)
+    parser.add_argument('-c', type=str, required=True)
     args = parser.parse_args()
 
     tcpserver = TCPServer(args.a, args.i, args.p, args.s, args.c)
