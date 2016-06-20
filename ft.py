@@ -136,6 +136,25 @@ class Filter(object):
         except Exception, e:
             print e
 
+        print "Calculating new checksum"
+        
+        try:
+            check = checksum(packet)
+            print "Calculated Checksum"
+        except Exception, e:
+            print "Calculation did not work"
+            print e
+
+        print "New TCP headers"
+        try:
+            newtcp_header = pack('!HHLLBBH', tcph[0], tcph[1], tcph[2],tcph[3],tcph[4],tcph[5],tcph[6]) + pack('H', check) + pack('!H', tcph[8])
+            print "Done"
+        except Exception, e:
+            print "Tcp header creation failed"
+            print e
+
+        packet = newiph + newtcp_header + data
+
         print "Passing to parser to double check the Header"
         print Filter.parser(packet)
         return packet

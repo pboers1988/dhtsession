@@ -47,7 +47,6 @@ class TCPServer():
                     table = Filter.dump_table()
                     if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1], table)): 
                      # Check if i the ack flag is set and if it is in the connection table
-                        print "Established, Closing or Time Wait"
                         pass
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
                         print "ACK but not connected PANIC"                 
