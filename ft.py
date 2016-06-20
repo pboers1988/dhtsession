@@ -163,8 +163,10 @@ class Filter(object):
             print e
 
         print "New TCP headers"
+        tcp_doff = 5
+        tcp_offset_res = (tcp_doff << 4) + 0
         try:
-            newtcp_header = pack('!HHLLBBH', tcph[0], tcph[1], tcph[2],tcph[3],tcph[4],tcph[5],tcph[6]) + pack('H', check) + pack('!H', tcph[8])
+            newtcp_header = pack('!HHLLBBH', tcph[0], tcph[1], tcph[2],tcph[3],tcp_offset_res,tcph[5],tcph[6]) + pack('H', check) + pack('!H', tcph[8])
             print "Done"
         except Exception, e:
             print "Tcp header creation failed"
