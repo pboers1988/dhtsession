@@ -64,7 +64,7 @@ class TCPServer():
                         print type(dest)
                         print "The correct destination = " + dest
                         packet = Filter.repack(buff, dest)
-                        sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+                        sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
                         sender.sendto(packet, (dest, 0))
                         print "Forwarded packet"
 
