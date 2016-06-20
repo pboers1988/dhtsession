@@ -51,6 +51,23 @@ class Filter(object):
             raise e
 
     @staticmethod
+    def checksum(msg):
+        s = 0
+         
+        # loop taking 2 characters at a time
+        for i in range(0, len(msg), 2):
+            w = ord(msg[i]) + (ord(msg[i+1]) << 8 )
+            s = s + w
+         
+        s = (s>>16) + (s & 0xffff);
+        s = s + (s >> 16);
+         
+        #complement and mask to 4 byte short
+        s = ~s & 0xffff
+         
+        return s
+
+    @staticmethod
     def parser(buff, port=8080):
         ip_header = buff[0:20]
         iph = unpack('!BBHHHBBH4s4s', ip_header)
@@ -137,9 +154,9 @@ class Filter(object):
             print e
 
         print "Calculating new checksum"
-        
+         
         try:
-            check = checksum(packet)
+            check = Filter.checksum(packet)
             print "Calculated Checksum"
         except Exception, e:
             print "Calculation did not work"
