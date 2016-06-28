@@ -87,7 +87,9 @@ class TCPServer():
                         key = packet_info[0] +":" + str(packet_info[1])
                         value = self.hostip
                         print "Setting values"
+                        print "Preset", datetime.datetime.now().isoformat()
                         ChordSetter.setval(self.dht, key, value)
+                        print "Postset",datetime.datetime.now().isoformat()
 
                     elif ((packet_info[3] == 0) and ( Filter.newconn(packet_info[0], packet_info[1], table) is False)):
                         print "No Ack but no new connection. Passing to application"
