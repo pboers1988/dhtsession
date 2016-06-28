@@ -61,12 +61,17 @@ class TCPServer():
                             print "Key is in chord"
                         else:
                             print "Key is in the cache"                     
-                        print type(dest)
                         print "The correct destination = " + dest
-                        packet = Filter.repack(buff, dest)
-                        sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
-                        sender.sendto(packet, (dest, 0))
-                        print "Forwarded packet"
+                        if dest == self.hostip:
+                            packet = Filter.repack(buff, self.anycast)
+                            sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+                            sender.sendto(packet, (self.anycast, 0))
+                            print "Forwarded packet"
+                        else:
+                            packet = Filter.repack(buff, dest)
+                            sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+                            sender.sendto(packet, (dest, 0))
+                            print "Forwarded packet"
 
 
                     elif ((packet_info[3] == 0) and Filter.newconn(packet_info[0], packet_info[1], table)):
