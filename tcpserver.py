@@ -48,7 +48,7 @@ class TCPServer():
                     if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1], table)): 
                      # Check if i the ack flag is set and if it is in the connection table
                         pass
-                    elif((packet_info[3] != 0) and packet_info[0] == self.hostip):
+                    elif((packet_info[3] != 0) and packet_info[5] == self.hostip):
                         packet = Filter.repack(buff, self.anycast)
                         sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
                         sender.sendto(packet, (self.anycast, 0))
