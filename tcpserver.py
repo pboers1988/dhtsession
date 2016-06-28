@@ -3,6 +3,7 @@ from struct import *
 from ft import Filter
 import os
 import time
+import datetime
 from chord import ChordSetter, ChordNode
 
 class TCPServer():
@@ -61,7 +62,9 @@ class TCPServer():
                         # see If we have the result in the cache
                         dest = self.getcache(key)
                         if dest is None:
+                            print "Pre", datetime.datetime.now().isoformat()
                             dest = ChordSetter.getval(self.dht, key)
+                            print "Post",datetime.datetime.now().isoformat()
                             print "Dest is:", dest
                             self.setcache(key,dest)
                             print "Key is in chord"
