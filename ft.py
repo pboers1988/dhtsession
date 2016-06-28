@@ -29,9 +29,8 @@ class Filter(object):
                     and (ip == str(entry.orig_ipv4_src)) and (port == entry.orig_port_src)):
                     #print "Established connection, Closing or Time Wait"
                     return True # This connection is a "normal connction and should be passed to the application"
-                elif ((entry.orig_l4proto == IPPROTO_TCP) and orig_ipv4_dst == hostip):
+                elif (entry.orig_l4proto == IPPROTO_TCP):
                     print "Not an Established connection"
-                    print entry
                     return False
         except Exception, e:
             raise e
