@@ -48,6 +48,12 @@ class TCPServer():
                     if ((packet_info[3] != 0) and Filter.filter(packet_info[0], packet_info[1], table)): 
                      # Check if i the ack flag is set and if it is in the connection table
                         pass
+                    elif (packet_info[5] == self.hostip):
+                        print "OKAAAYYY", packet_info[5]
+                        packet = Filter.repack(buff, self.anycast)
+                        sender = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+                        sender.sendto(packet, (self.anycast, 0))
+                        print "Forwarded packet"
                     elif ((packet_info[3] != 0) and (Filter.filter(packet_info[0], packet_info[1], table) is False)):
                         print "ACK but not connected PANIC"                 
                         key = packet_info[0] +":" + str(packet_info[1])
